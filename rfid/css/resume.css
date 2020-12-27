@@ -1,0 +1,61 @@
+body
+ {
+  background: #f5f5f5 !important;
+  font-family: "PT Sans", sans-serif;
+  margin-bottom: 60px;
+ }
+
+select
+    {
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+   border-radius: 0;
+   font-weight: 500;
+   }
+
+.icon1
+    {   
+    font-size: 39px;
+    display: inline;
+    color: brown;
+    }
+
+.icon2
+     {
+     font-size: 15px;
+     }
+     
+hr.style13
+    {
+	height: 10px;
+	border: 0;
+	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+    }
+
+.custom-file-label 
+    {
+    font-family: Arial, Helvetica, sans-serif;
+    }
+
+
+::placeholder
+    {
+    font-weight: 500;
+    }
+
+
+.extraeffect
+   {
+    font-weight: 700;
+    color: #495677;
+   }
+
+
+.wrapper
+  {
+    text-align: center;
+  }
+
+
+
