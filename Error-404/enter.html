@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Register Form</title>
+</head>
+<body>
+ <form action="enter.php" method="POST">
+  <table>
+   <tr>
+    <td> Patient Name :</td>
+    <td><input type="text" name="username" required></td>
+   </tr>
+   <tr>
+    <td>Address :</td>
+    <td><input type="text" name="password" required></td>
+   </tr>
+   <tr>
+    <td>Gender :</td>
+    <td>
+     <input type="radio" name="gender" value="m" required>Male
+     <input type="radio" name="gender" value="f" required>Female
+    </td>
+   </tr>
+   <tr>
+    <td>Age :</td>
+    <td><input type="text" name="email" required></td>
+   </tr> 
+   <tr>
+    <td>Phone no :</td>
+    <td>
+     <select name="phoneCode" required>
+      <option selected hidden value="">Select Code</option>
+      <option value="91">91</option>
+      
+     </select>
+     <input type="phone" name="phone" required>
+    </td>
+   </tr>
+   <tr>
+    <td> Height :</td>
+    <td><input type="text" name="ht" required></td>
+   </tr>
+    <tr>
+    <td> Weight:</td>
+    <td><input type="text" name="wt" required></td>
+   </tr>
+   <tr>
+    <td> Blood Pressure :</td>
+    <td><input type="text" name="bp" required></td>
+   </tr>
+   <tr>
+    <td> Doctor Name :</td>
+    <td><input type="text" name="dname" required></td>
+   </tr>
+   <tr>
+    <td> Disease:</td>
+    <td><input type="text" name="ds" required></td>
+   </tr>
+   <tr>
+    <td> Department:</td>
+    <td><input type="text" name="dp" required></td>
+   </tr>
+   <tr>
+     <tr>
+    <td> Insurance:</td>
+    <td><input type="text" name="ins" required></td>
+   </tr>
+    <tr>
+    <td> Allergies:</td>
+    <td><input type="text" name="al1" required></td>
+   </tr>
+    <tr>
+    <td> Past Surgeries:</td>
+    <td><input type="text" name="sh" required></td>
+   </tr>
+   <tr>
+    <td><input type="submit" value="Submit"></td>
+   </tr>
+  </table>
+ </form>
+</body>
+</html>

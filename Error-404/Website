@@ -1,0 +1,402 @@
+<?php
+
+//used for registering patient's information into database
+
+$username = $_POST['username'];
+$password = $_POST['password'];
+$gender = $_POST['gender'];
+$email = $_POST['email'];
+//$phoneCode = $_POST['phoneCode'];
+$phone = $_POST['phone'];
+$ht = $_POST['ht'];
+$wt = $_POST['wt'];
+$bp = $_POST['bp'];
+$dname = $_POST['dname'];
+$ds = $_POST['ds'];
+$dp = $_POST['dp'];
+$ins = $_POST['ins'];
+$al1 = $_POST['al1'];
+$sh = $_POST['sh'];
+
+if (!empty($username) || !empty($password) || !empty($gender) || !empty($email) || !empty($phone)) {
+ $host = "localhost";
+    $dbUsername = "root";
+    $dbPassword = "";
+    $dbname = "youtube";
+    //create connection
+    $conn = new mysqli($host, $dbUsername, $dbPassword, $dbname);
+    if (mysqli_connect_error()) {
+     die('Connect Error('. mysqli_connect_errno().')'. mysqli_connect_error());
+    } else {
+     $SELECT = "SELECT phone From enter Where phone = ? Limit 1";
+     $INSERT = "INSERT Into enter (username, password, gender, email,  phone,ht,wt,bp,dname,ds,dp,ins,al1,sh) values( ?,?, ?, ?, ?, ?,?,?,?,?,?,?,?,?)";
+     //Prepare statement
+     $stmt = $conn->prepare($SELECT);
+     $stmt->bind_param("i", $phone);
+     $stmt->execute();
+     $stmt->bind_result($phone);
+     $stmt->store_result();
+     $rnum = $stmt->num_rows;
+     if ($rnum==0) {
+      $stmt->close();
+      $stmt = $conn->prepare($INSERT);
+      $stmt->bind_param("ssssisssssssss", $username, $password,$gender, $email, $phone,$ht,$wt,$bp,$dname,$ds,$dp,$ins,$al1,$sh);
+      $stmt->execute();
+      echo "New record inserted sucessfully";
+     } else {
+      echo "Someone already register using this Phone";
+     }
+     $stmt->close();
+     $conn->close();
+    }
+} else {
+ echo "All field are required";
+ die();
+}
+
+
+//Front End for Registration form 
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Register Form</title>
+</head>
+<body>
+ <form action="enter.php" method="POST">
+  <table>
+   <tr>
+    <td> Patient Name :</td>
+    <td><input type="text" name="username" required></td>
+   </tr>
+   <tr>
+    <td>Address :</td>
+    <td><input type="text" name="password" required></td>
+   </tr>
+   <tr>
+    <td>Gender :</td>
+    <td>
+     <input type="radio" name="gender" value="m" required>Male
+     <input type="radio" name="gender" value="f" required>Female
+    </td>
+   </tr>
+   <tr>
+    <td>Age :</td>
+    <td><input type="text" name="email" required></td>
+   </tr> 
+   <tr>
+    <td>Phone no :</td>
+    <td>
+     <select name="phoneCode" required>
+      <option selected hidden value="">Select Code</option>
+      <option value="91">91</option>
+      
+     </select>
+     <input type="phone" name="phone" required>
+    </td>
+   </tr>
+   <tr>
+    <td> Height :</td>
+    <td><input type="text" name="ht" required></td>
+   </tr>
+    <tr>
+    <td> Weight:</td>
+    <td><input type="text" name="wt" required></td>
+   </tr>
+   <tr>
+    <td> Blood Pressure :</td>
+    <td><input type="text" name="bp" required></td>
+   </tr>
+   <tr>
+    <td> Doctor Name :</td>
+    <td><input type="text" name="dname" required></td>
+   </tr>
+   <tr>
+    <td> Disease:</td>
+    <td><input type="text" name="ds" required></td>
+   </tr>
+   <tr>
+    <td> Department:</td>
+    <td><input type="text" name="dp" required></td>
+   </tr>
+   <tr>
+     <tr>
+    <td> Insurance:</td>
+    <td><input type="text" name="ins" required></td>
+   </tr>
+    <tr>
+    <td> Allergies:</td>
+    <td><input type="text" name="al1" required></td>
+   </tr>
+    <tr>
+    <td> Past Surgeries:</td>
+    <td><input type="text" name="sh" required></td>
+   </tr>
+   <tr>
+    <td><input type="submit" value="Submit"></td>
+   </tr>
+  </table>
+ </form>
+</body>
+</html>
+
+//Backend Of  Updataion Of Data 
+
+
+<?php
+
+// php code to Update data from mysql database Table
+ $username = $_POST['username'];
+   $password = $_POST['password'];
+   $gender = $_POST['gender'];
+   $email = $_POST['email'];
+   $phone = $_POST['phone'];
+   $ht = $_POST['ht'];
+   $wt = $_POST['wt'];
+   $bp = $_POST['bp'];
+   $dname = $_POST['dname'];
+   $ds = $_POST['ds'];
+   $dp = $_POST['dp'];
+   $ins = $_POST['ins'];
+   $al1 = $_POST['al1'];
+   $sh = $_POST['sh'];
+
+
+    
+   $host = "localhost";
+    $dbUsername = "root";
+    $dbPassword = "";
+    $dbname = "youtube";
+   
+    $conn = new mysqli($host, $dbUsername, $dbPassword, $dbname);
+    if (mysqli_connect_error()) {
+     die('Connect Error('. mysqli_connect_errno().')'. mysqli_connect_error());
+    } else {
+   
+   // get values form input text and number
+   
+  
+           
+   // mysql query to Update data
+   $query = "UPDATE `enter` SET `password`='".$password."',`gender`='".$gender."',`email`='" .$email."',`phone`='" .$phone."',`ht`='" .$ht."',`wt`='" .$wt."',`bp`='" .$bp."',`dname`='" .$dname."',`ds`='" .$ds."',`dp`='" .$dp."',`al1`='" .$al1."',`ins`='" .$ins."',`sh`='" .$sh."' WHERE `username` = username" ;
+  $stmt = $conn->prepare($query);
+  $stmt->close();
+   
+   $result = mysqli_query($conn, $query);
+   
+   if($result)
+   {
+       echo 'Data Updated';
+   }else{
+       echo 'Data Not Updated';
+   }
+   mysqli_close($conn);
+}
+
+?>
+
+
+
+//Front End Of Updataion Of Data
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Register Form</title>
+</head>
+<body bgcolor="#00A1FF">
+
+
+     <h1 align="middle" <p style="color:white;"> PATIENT UPDATES</p></h1> 
+   <p style="text-align:center;">
+   <img src = "1.png"  class="center">
+ <br>
+ <form action="update.php" method="POST">
+  <table>
+    <!--<tr>
+    <td align=right>                Id :</td>
+    <td align=right><input type="number" class = "form-control"name="Id" required></td>
+    <td align=right> Doctor Name :</td>
+    <td align=right><input type="text" class = "form-control"name="DoctorN" required></td>
+   </tr>-->
+   <tr>
+    <d style="text-align:center;">
+     <p style="color:white;"> Patient Name <input type="text" name="username" required>
+     
+    Doctor Name:<input type="text" class = "form-control"name="dname" required>
+   </tr></p>
+
+   <tr>
+    <p style="text-align:center;">
+    Address     <input type="text" name="password" required>
+     
+          Diseases: <input type="text" class = "form-control"name="ds" required>
+   </tr></p>
+   
+   <tr>
+    
+    <p style="text-align:center;">
+     Gender :<input type="radio" name="gender" value="m" required>Female
+     <input type="radio" name="gender" value="f" required>Male      
+    </td>
+    
+      Department  :
+    <input type="text" class = "form-control"name="dp" required>
+   </p>
+    </tr>
+     <p style="text-align:center;">
+   Age<input type="text" class = "form-control"name="email" required></td>
+    
+      Insurance :
+    <input type="text" name="ins" required></td>
+   
+   </tr><p style="text-align:center;">
+     Phone Number :
+    <input type="number" class = "form-control"name="phone" required></td>
+      Allergies :</td>
+    <input type="text" class = "form-control"name="al1" required></td></p>
+      
+</tr><p style="text-align:center;">
+     Height :
+    <input type="text" class = "form-control"name="ht" required></td>
+     Past Surgeries :</td>
+    <input type="text" style="text-align: center;" name="sh" required></td>
+  </tr>
+  <tr><p style="text-align:center;">
+     Weight :
+    <input type="text" name="wt" required></td>
+    Blood Pressure :
+    <input type="text" name="bp" required></td>
+   </p>  
+    
+  </tr>
+  
+    </tr>
+    <tr>
+    
+    <!--</td>
+      <td align=right> Date :</td>
+    <td align=right><input type="number" class = "form-control"name="Date1" required></td>-->
+   
+   
+   </tr>
+   <tr>
+     
+   
+   <!--<td align=right>Email :</td>
+    <td align=right><input type="email" name="email" required></td>-->
+   </tr> 
+    <br>
+   <tr>
+
+    <td ><input type="Submit" align="left" value="Submit"></td>
+   </tr>
+  </table>
+ </form>
+</body>
+</html>
+
+
+
+//Patient can view a non editable Medical History
+
+
+<html>
+<body bgcolor="#00A1FF">
+   <h1 align="middle" <p style="color:white;"> PATIENT DETAILS</p></h1> 
+   <p style="text-align:center;">
+   <img src = "1.png"  class="center">
+
+<table align="center" border=1 cellspacing=0 cellpadding=30>
+<tr><p >
+ <th> <p style="color:white;">Patient Name</p>  </th>
+ <th align=center><p style="color:white;"> Abdul Azim </th>
+<th  align=center><p style="color:white;"> Doctor Name </th>
+<th align="center"> <p style="color:white;">Prashant </th>
+ </tr>
+
+<tr>
+  <td> <p style="color:white;">Address</td>
+  <td> <p style="color:white;">Nerul Sector - 7</td>
+  <td> <p style="color:white;">Disease </td>
+  <td> <p style="color:white;">Viral Fever </td>  
+</tr>
+
+     <tr>
+  <td> <p style="color:white;">Gender </td>
+  <td> <p style="color:white;">Male </td>
+  <td> <p style="color:white;">Deaprtment </td>
+  <td> <p style="color:white;"> Physician </td>   
+</tr>
+
+<tr>
+  <td><p style="color:white;"> Age </td>
+  <td> <p style="color:white;">20</td>
+  <td><p style="color:white;">Insurance  </td>
+  <td> <p style="color:white;">Yes </td>
+   
+
+</tr>
+<tr>
+  <td><p style="color:white;"> Phone Number </td>
+  <td><p style="color:white;"> 9833123456 </td>
+  <td> <p style="color:white;">Allergies </td>
+  <td> <p style="color:white;">NO </td>
+   
+  
+
+</tr>
+<tr>
+  <td><p style="color:white;"> Height </td>
+  <td> <p style="color:white;">180 cms.</td>
+  <td> <p style="color:white;">Past Surgeries </td>
+  <td> <p style="color:white;">No </td>
+   
+  
+
+</tr>
+<tr>
+  <td> <p style="color:white;">Weight </td>
+  <td> <p style="color:white;">75 kg. </td>
+  
+  <td> <p style="color:white;">Blood Pressure </td>
+  <td> <p style="color:white;">100 </td>
+
+</tr>
+
+<p style="color:white;"><a href=file:///C:/xampp/htdocs/prep.html>Prescription</a> is a link to your Prescription And Blood Report</p>
+
+</table>
+</body>
+</html>
+
+
+//Patient can view a non editable Medical History Prescription And Medical Reports
+
+
+
+
+<html>
+<body bgcolor="#00A1FF">
+   <h1 align="middle" <p style="color:white;"> PATIENT PRESCRIPTION</p></h1> 
+   <p style="text-align:center;"></p>
+
+   	<tr>
+    <p style="text-align:left;">
+      
+     <b> <p style="color:white;">Doctor Prescription : </p></b><img src = "images.jpg"  class="center">
+      <img src = "images2.jpg"  class="center">
+      <img src = "image3.jpg"  class="center">
+
+     <p style="text-align:left;">
+      
+     <b> <p style="color:white;">Doctor Prescription : </p></b><img src = "image5.jpg"  class="center">
+      >
+      <img src = "images4.jpg"  class="center">
+
+
+  
+  
+
+
